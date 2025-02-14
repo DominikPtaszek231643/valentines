@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Valentine's Day Zuzia!</title>
+
+  <!-- 
+    FONTS & ICONS 
+    Możesz podmienić czcionki na inne z Google Fonts.
+    Aktualnie: 'Dancing Script' dla nagłówków i 'Open Sans' dla pozostałego tekstu.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* RESET / PODSTAWOWE STYLOWANIE */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #fdeff2; /* jasnoróżowe tło */
+      color: #333;
+      overflow-x: hidden; /* ukrycie ewentualnego paska przewijania w poziomie */
+      position: relative;
+    }
+
+    /* ANIMOWANE SERDUSZKA W TLE */
+    .heart-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; 
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      95% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+    .heart {
+      position: absolute;
+      bottom: -10%;
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at 30% 30%, #ff7aa8 40%, #ff4081 90%);
+      opacity: 0;
+      transform: rotate(-45deg);
+      animation: floatUp 8s linear infinite;
+      border-radius: 50% 50% 0 0;
+    }
+    .heart::before {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at 30% 30%, #ff7aa8 40%, #ff4081 90%);
+      top: 0;
+      left: -50%;
+      border-radius: 50% 0 0 50%;
+    }
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at 30% 30%, #ff7aa8 40%, #ff4081 90%);
+      top: -50%;
+      left: 0;
+      border-radius: 50% 50% 0 0;
+    }
+
+    /* Różne parametry, żeby serduszka się nakładały i poruszały inaczej */
+    .heart:nth-child(1) {
+      left: 10%;
+      animation-duration: 7s;
+      animation-delay: 0s;
+    }
+    .heart:nth-child(2) {
+      left: 25%;
+      animation-duration: 8.5s;
+      animation-delay: 2s;
+    }
+    .heart:nth-child(3) {
+      left: 40%;
+      animation-duration: 7.5s;
+      animation-delay: 1s;
+    }
+    .heart:nth-child(4) {
+      left: 55%;
+      animation-duration: 9s;
+      animation-delay: 0s;
+    }
+    .heart:nth-child(5) {
+      left: 70%;
+      animation-duration: 6.5s;
+      animation-delay: 3s;
+    }
+    .heart:nth-child(6) {
+      left: 85%;
+      animation-duration: 8s;
+      animation-delay: 1.5s;
+    }
+
+    /* SEKCJA HERO */
+    header {
+      position: relative;
+      z-index: 2; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 210, 225, 0.6) 0%,
+        rgba(253, 239, 242, 0)
+      );
+    }
+    header h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #ff4081;
+      margin-bottom: 1rem;
+    }
+    header p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* NOWA SEKCJA Z TEKSTEM O ZUZI */
+    section.dedication {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 1rem;
+      margin: 0 auto;
+      max-width: 900px;
+      text-align: left;
+    }
+    section.dedication h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: #ff4081;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    section.dedication p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    /* GALERIA ZDJĘĆ */
+    section.gallery {
+      z-index: 2; 
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #fff;
+      margin: 2rem auto;
+      max-width: 1000px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    .gallery h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: #ff4081;
+      margin-bottom: 1rem;
+    }
+    .photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 0.5rem;
+    }
+    .photos img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      transition: transform 0.3s ease-in-out;
+      object-fit: cover;
+    }
+    .photos img:hover {
+      transform: scale(1.05);
+    }
+
+    /* STOPKA */
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 1rem;
+      color: #444;
+    }
+
+    /* DROBNE DOSTOSOWANIA RESPONSYWNE */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.4rem;
+      }
+    }
+
+
+    .video-section {
+        text-align: center;     /* centers the heading and the video horizontally */
+        padding: 2rem 1rem;     /* adds spacing around the section */
+        margin: 0 auto;         /* auto margins help with centering in some layouts */
+        max-width: 900px;       /* optional max width to match other sections */
+      }
+      
+      /* Make the video responsive */
+      .video-section video {
+        max-width: 100%;        /* scales down on smaller screens */
+        height: auto;           /* keeps aspect ratio correct */
+      }
+  </style>
+</head>
+<body>
+
+  <!-- SERDUSZKA W TLE -->
+  <div class="heart-container">
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+  </div>
+
+  <!-- SEKCJA HERO -->
+  <header>
+    <h1>Happy Valentine's Day, Zuzia!</h1>
+    <p>
+      Stworzyłem tę stronę, aby pokazać Ci, jak bardzo Cię kocham i jak wiele dla mnie znaczą nasze wspólne chwile.
+    </p>
+  </header>
+
+  <!-- TEKST O ZUZI (PO POLSKU) -->
+  <section class="dedication">
+    <h2>Dla Ciebie, Zuzia</h2>
+    
+
+    
+    <p>
+    <b>Kocham Zuzię</b>, bo jest cudowną, niesamowitą osobą o dobrym i szczerym sercu oraz niepowtarzalnej osobowości. Mimo że sama czasem zmaga się z różnymi problemami, zawsze woli się poświęcić i pomagać innym. Nigdy nie opuszcza ludzi w potrzebie, nie odtrąca ich, tylko wspiera całą duszą i całym sercem.
+</p>
+    <p>
+    To już kolejne walentynki, które obchodzimy razem, a minęły już ponad dwa lata i kilka miesięcy, odkąd jesteśmy parą. Każda chwila spędzona z Nią jest niezwykła i pełna radości. Jestem niesamowicie szczęśliwy, że spotkałem taką jedyną w swoim rodzaju dziewczynę – piękną, olśniewającą (ma zachwycające oczy, włosy, usta i całe ciało), a przy tym niezastąpioną pod względem charakteru i osobowości.
+</p>
+<p>
+    Zuzia zawsze dba o mnie, pyta, jak się czuję, czy wszystko u mnie w porządku. Pomimo dzielącej nas odległości, trwającej już półtora roku, wciąż dajemy radę i wspieramy się nawzajem. Nawet w najzwyklejszych momentach jest wspaniale, bo jestem z Nią – moją kochaną Zuzią.
+</p> 
+
+<p>
+    Dzięki Niej stałem się lepszym człowiekiem: mniej szorstkim, a bardziej życzliwym wobec innych. Nigdy nie sądziłem, że ktoś może mieć na mnie aż tak wielki wpływ, ani że mogę kogoś tak bezgranicznie kochać. Bycie z Nią, myślenie o Niej i troszczenie się o Nią sprawia, że czuję się spełniony i szczęśliwy.
+</p>  
+</section>
+
+  <!-- GALERIA ZDJĘĆ -->
+  <section class="gallery">
+    <h2>Nasze Wspomnienia</h2>
+    <div class="photos">
+      <!-- 
+        Wstaw tutaj swoje własne zdjęcia, np.
+        <img src="images/zuzia1.jpg" alt="Zuzia i ja"/>
+      -->
+
+      <img src="1.jpg" alt="Placeholder 2"/>
+     
+      <img src="3.jpg" alt="Placeholder 2"/>
+      <img src="4.jpg" alt="Placeholder 2"/>
+      <img src="5.jpg" alt="Placeholder 2"/>
+      <img src="6.jpg" alt="Placeholder 2"/>
+      <img src="7.jpg" alt="Placeholder 2"/>
+      <img src="8.jpg" alt="Placeholder 2"/>
+      <img src="2.jpg" alt="Placeholder 2"/>
+    </div>
+  </section>
+
+  <!-- WIDEO DLA ZUZI -->
+  <section class="video-section">
+    <h2>Małe wideo dla Ciebie, Zuzia</h2>
+    <video width="640" height="360" controls poster="poster.jpg">
+      <source src="videos/zuzia_video.mp4" type="video/mp4" />
+      Twoja przeglądarka nie obsługuje elementu <video>.
+    </video>
+  </section>
+  
+  <!-- STOPKA -->
+  <footer>
+    <p>Stworzone z miłością specjalnie dla Ciebie, Zuzia.</p>
+  </footer>
+  
+</body>
+</html>
